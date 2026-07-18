@@ -8,31 +8,35 @@ import { Button } from "@/components/ui/button";
 import { Pencil } from "lucide-react";
 import { useState } from "react";
 import { Field, FieldError } from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
+import { Textarea } from "@/components/ui/textarea";
+import { cn } from "@/lib/utils";
 
-interface TitleFormProps {
-  InitialCourseTitle: string;
+interface DescriptionFormProps {
+  InitialCourseDescription: string | null;
   courseId: string;
 }
 
 const formSchema = z.object({
-  title: z.string().min(1, "Title is required"),
+  description: z.string(),
 });
 
-export const TitleForm = ({ InitialCourseTitle, courseId }: TitleFormProps) => {
+export const DescriptionForm = ({
+  InitialCourseDescription,
+  courseId,
+}: DescriptionFormProps) => {
   const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: InitialCourseTitle,
+      description: InitialCourseDescription ?? "",
     },
   });
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     try {
       await axios.patch(`/api/courses/${courseId}`, data);
-      toast.success("Title updated successfully");
+      toast.success("Description updated successfully");
       toggleEditMode();
       router.refresh();
     } catch {
@@ -51,7 +55,7 @@ export const TitleForm = ({ InitialCourseTitle, courseId }: TitleFormProps) => {
   return (
     <div className="mt-6  bg-muted rounded-md p-4">
       <div className="flex justify-between items-center">
-        <span>Course title</span>
+        <span>Course Description</span>
         <Button variant="ghost" onClick={toggleEditMode}>
           {isEditing ? (
             <p>Cancel</p>
@@ -71,14 +75,14 @@ export const TitleForm = ({ InitialCourseTitle, courseId }: TitleFormProps) => {
         >
           <Controller
             control={form.control}
-            name="title"
+            name="description"
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
-                <Input
+                <Textarea
                   {...field}
-                  id="course-title"
+                  id="course-description"
                   aria-invalid={fieldState.invalid}
-                  placeholder="e.g. Python for Complete Beginners"
+                  placeholder="Write description of your course..."
                   disabled={isSubmitting}
                 />
                 {fieldState.invalid && (
@@ -93,7 +97,14 @@ export const TitleForm = ({ InitialCourseTitle, courseId }: TitleFormProps) => {
           </Button>
         </form>
       ) : (
-        <p className="text-sm mt-4">{InitialCourseTitle}</p>
+        <p
+          className={cn(
+            "text-sm mt-4",
+            !InitialCourseDescription && "text-muted-foreground italic",
+          )}
+        >
+          {InitialCourseDescription || "No description"}
+        </p>
       )}
     </div>
   );

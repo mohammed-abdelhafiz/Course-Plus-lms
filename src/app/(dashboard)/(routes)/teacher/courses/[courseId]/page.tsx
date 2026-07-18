@@ -4,6 +4,7 @@ import { auth } from "@clerk/nextjs/server";
 import { LayoutDashboard } from "lucide-react";
 import { redirect } from "next/navigation";
 import { TitleForm } from "./_components/TitleForm";
+import { DescriptionForm } from "./_components/DescriptionForm";
 
 interface CourseSetupPageProps {
   params: Promise<{ courseId: string }>;
@@ -51,7 +52,12 @@ export default async function CourseSetupPage({
             <h2 className="text-xl">Customize your course</h2>
           </div>
           <TitleForm courseId={courseId} InitialCourseTitle={course.title} />
+          <DescriptionForm
+            courseId={courseId}
+            InitialCourseDescription={course.description}
+          />
         </div>
+        <div></div>
       </div>
     </div>
   );
