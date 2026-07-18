@@ -13,7 +13,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 
 interface DescriptionFormProps {
-  InitialCourseDescription: string | null;
+  initialCourseDescription: string | null;
   courseId: string;
 }
 
@@ -22,14 +22,14 @@ const formSchema = z.object({
 });
 
 export const DescriptionForm = ({
-  InitialCourseDescription,
+  initialCourseDescription,
   courseId,
 }: DescriptionFormProps) => {
   const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      description: InitialCourseDescription ?? "",
+      description: initialCourseDescription ?? "",
     },
   });
 
@@ -100,10 +100,10 @@ export const DescriptionForm = ({
         <p
           className={cn(
             "text-sm mt-4",
-            !InitialCourseDescription && "text-muted-foreground italic",
+            !initialCourseDescription && "text-muted-foreground italic",
           )}
         >
-          {InitialCourseDescription || "No description"}
+          {initialCourseDescription || "No description"}
         </p>
       )}
     </div>

@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 
 interface TitleFormProps {
-  InitialCourseTitle: string;
+  initialCourseTitle: string;
   courseId: string;
 }
 
@@ -20,12 +20,12 @@ const formSchema = z.object({
   title: z.string().min(1, "Title is required"),
 });
 
-export const TitleForm = ({ InitialCourseTitle, courseId }: TitleFormProps) => {
+export const TitleForm = ({ initialCourseTitle, courseId }: TitleFormProps) => {
   const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: InitialCourseTitle,
+      title: initialCourseTitle,
     },
   });
 
@@ -93,7 +93,7 @@ export const TitleForm = ({ InitialCourseTitle, courseId }: TitleFormProps) => {
           </Button>
         </form>
       ) : (
-        <p className="text-sm mt-4">{InitialCourseTitle}</p>
+        <p className="text-sm mt-4">{initialCourseTitle}</p>
       )}
     </div>
   );
