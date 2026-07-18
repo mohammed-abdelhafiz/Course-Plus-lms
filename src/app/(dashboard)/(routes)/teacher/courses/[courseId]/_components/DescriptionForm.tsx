@@ -53,7 +53,7 @@ export const DescriptionForm = ({
   };
 
   return (
-    <div className="mt-6  bg-muted rounded-md p-4">
+    <div className="bg-muted rounded-md p-4">
       <div className="flex justify-between items-center">
         <span>Course Description</span>
         <Button variant="ghost" onClick={toggleEditMode}>
