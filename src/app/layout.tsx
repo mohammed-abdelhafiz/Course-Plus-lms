@@ -39,7 +39,7 @@ export default function RootLayout({
         inter.variable,
       )}
     >
-      <body className="min-h-full flex flex-col">
+      <body className="h-full">
         <ClerkProvider afterSignOutUrl="/" appearance={{ theme: shadcn }}>
           {children}
         </ClerkProvider>
