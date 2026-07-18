@@ -13,7 +13,7 @@ export default async function DashboardLayout({
       <div className="hidden md:block w-56 fixed inset-y-0 z-50">
         <Sidebar />
       </div>
-      <div className="h-20 md:pl-56 w-full fixed z-50">
+      <div className="h-20 md:pl-56 w-full fixed">
         <Navbar />
       </div>
       <main className="md:pl-56 pt-20 h-full">{children}</main>
