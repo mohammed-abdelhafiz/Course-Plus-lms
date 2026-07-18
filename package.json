@@ -13,6 +13,8 @@
     "@clerk/nextjs": "^7.5.20",
     "@clerk/ui": "^1.25.5",
     "@hookform/resolvers": "^5.4.0",
+    "@prisma/adapter-pg": "^7.8.0",
+    "@prisma/client": "^7.8.0",
     "axios": "^1.18.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -35,6 +37,7 @@
     "babel-plugin-react-compiler": "1.0.0",
     "eslint": "^9",
     "eslint-config-next": "16.2.10",
+    "prisma": "^7.8.0",
     "tailwindcss": "^4",
     "typescript": "^5"
   },
@@ -43,6 +46,8 @@
     "unrs-resolver@1.12.2": true,
     "bufferutil@4.1.0": true,
     "utf-8-validate@6.0.6": true,
-    "core-js@3.47.0": true
+    "core-js@3.47.0": true,
+    "prisma@7.8.0": true,
+    "@prisma/engines@7.8.0": true
   }
 }
