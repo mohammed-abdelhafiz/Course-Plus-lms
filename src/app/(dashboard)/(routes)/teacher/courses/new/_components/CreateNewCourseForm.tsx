@@ -40,6 +40,7 @@ export const CreateNewCourseForm = () => {
     try {
       const response = await axios.post("/api/courses", data);
       router.push(`/teacher/courses/${response.data.id}`);
+      toast.success("Course created successfully");
     } catch {
       toast.error("Something went wrong");
     }
@@ -47,7 +48,9 @@ export const CreateNewCourseForm = () => {
   return (
     <Card className="w-full max-w-2xl">
       <CardHeader>
-        <CardTitle className="text-2xl">Name your course</CardTitle>
+        <CardTitle className="text-lg font-semibold">
+          Name your course
+        </CardTitle>
         <CardDescription className="text-muted-foreground text-sm">
           What would you like to name your course? Don&apos;t worry, you can
           change this later.
@@ -71,6 +74,7 @@ export const CreateNewCourseForm = () => {
                   aria-invalid={fieldState.invalid}
                   placeholder="e.g. Python for Complete Beginners"
                   disabled={isSubmitting}
+                  className="py-4"
                 />
                 <FieldDescription>
                   What will you teach in this course?

@@ -1,4 +1,4 @@
-import { CreateNewCourseForm } from "@/app/(dashboard)/_components/CreateNewCourseForm";
+import { CreateNewCourseForm } from "@/app/(dashboard)/(routes)/teacher/courses/new/_components/CreateNewCourseForm";
 
 export default function CreateNewCoursePage() {
   return (

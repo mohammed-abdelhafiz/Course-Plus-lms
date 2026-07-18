@@ -14,9 +14,9 @@ export const Logo = () => {
       className="p-6 flex items-center gap-1"
     >
       <Image src="/logo.svg" alt="Logo" width={42} height={30} />
-      <h1 className="text-2xl font-extrabold text-primary mt-1 uppercase italic">
+      <span className="text-2xl font-extrabold text-primary mt-1 uppercase italic">
         Course+
-      </h1>
+      </span>
     </Link>
   );
 };
