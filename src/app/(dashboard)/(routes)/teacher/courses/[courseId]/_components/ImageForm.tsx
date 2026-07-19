@@ -1,7 +1,4 @@
 "use client";
-import * as z from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { Button } from "@/components/ui/button";
@@ -17,20 +14,9 @@ interface ImageFormProps {
   courseId: string;
 }
 
-const formSchema = z.object({
-  imageUrl: z.string(),
-});
-
 export const ImageForm = ({ initialImageUrl, courseId }: ImageFormProps) => {
   const router = useRouter();
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      imageUrl: initialImageUrl ?? "",
-    },
-  });
-
-  const onSubmit = async (data: z.infer<typeof formSchema>) => {
+  const onSubmit = async (data: { imageUrl: string }) => {
     try {
       await axios.patch(`/api/courses/${courseId}`, data);
       toast.success("Course image updated successfully");
@@ -40,7 +26,6 @@ export const ImageForm = ({ initialImageUrl, courseId }: ImageFormProps) => {
       toast.error("Something went wrong");
     }
   };
-
 
   const [isEditing, setIsEditing] = useState(false);
 
@@ -74,7 +59,6 @@ export const ImageForm = ({ initialImageUrl, courseId }: ImageFormProps) => {
             endpoint="courseImage"
             onChange={(url) => {
               if (url) {
-                form.setValue("imageUrl", url);
                 onSubmit({ imageUrl: url });
               }
             }}
