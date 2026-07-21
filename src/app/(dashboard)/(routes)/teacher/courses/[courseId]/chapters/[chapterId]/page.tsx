@@ -1,10 +1,14 @@
-import { IconBadge } from "@/components/IconBadge";
 import { db } from "@/lib/db";
-import { ArrowLeft, LayoutDashboard } from "lucide-react";
+import { ArrowLeft, Eye, LayoutDashboard, Video } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { ChapterTitleForm } from "./_components/ChapterTitleForm";
 import { ChapterDescriptionForm } from "./_components/ChapterDescriptionForm";
+import { ChapterAccessForm } from "./_components/ChapterAccessForm";
+import { ChapterVideoForm } from "./_components/ChapterVideoForm";
+import { SetupCardHeader } from "../../_components/SetupCardHeader";
+import { Banner } from "@/components/banner";
+import { ChapterActions } from "./_components/ChapterActions";
 
 export default async function ChapterIdPage({
   params,
@@ -32,28 +36,44 @@ export default async function ChapterIdPage({
   const fieldsCompleted = requiredFields.filter(Boolean).length;
   const completionText = `(${fieldsCompleted}/${totalFields})`;
 
+  const isComplete = requiredFields.every(Boolean);
+
   return (
-    <div className="p-6">
-      <Link
-        href={`/teacher/courses/${courseId}`}
-        className="flex items-center text-sm mb-6 hover:opacity-75 transition"
-      >
-        <ArrowLeft className="h-4 w-4 mr-2" />
-        Back to course setup
-      </Link>
-      <div className="flex flex-col gap-y-2">
-        <h1 className="text-2xl font-medium">Chapter creation</h1>
-        <span className="text-sm text-muted-foreground">
-          Complete all fields {completionText}
-        </span>
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-16">
-        <div>
-          <div className="space-y-4">
-            <div className="flex items-center gap-x-2">
-              <IconBadge icon={LayoutDashboard} />
-              <h2 className="text-xl">Customize your chapter</h2>
-            </div>
+    <div>
+      {!chapter.isPublished && (
+        <Banner
+          label="This chapter is not published, it will not be visible to students"
+          variant="warning"
+        />
+      )}
+      <div className="p-6">
+        <Link
+          href={`/teacher/courses/${courseId}`}
+          className="flex items-center text-sm mb-6 hover:opacity-75 transition"
+        >
+          <ArrowLeft className="h-4 w-4 mr-2" />
+          Back to course setup
+        </Link>
+        <div className="flex items-center justify-between">
+          <div className="flex flex-col gap-y-2">
+            <h1 className="text-2xl font-medium">Chapter creation</h1>
+            <span className="text-sm text-muted-foreground">
+              Complete all fields {completionText}
+            </span>
+          </div>
+          <ChapterActions
+            disabled={!isComplete}
+            chapterId={chapterId}
+            courseId={courseId}
+            isPublished={chapter.isPublished}
+          />
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-16">
+          <div className="space-y-6">
+            <SetupCardHeader
+              icon={LayoutDashboard}
+              title="Customize your chapter"
+            />
             <ChapterTitleForm
               courseId={courseId}
               chapterId={chapterId}
@@ -64,6 +84,25 @@ export default async function ChapterIdPage({
               chapterId={chapterId}
               initialChapterDescription={chapter.description}
             />
+            <div>
+              <SetupCardHeader icon={Eye} title="Access settings" />
+              <ChapterAccessForm
+                courseId={courseId}
+                chapterId={chapterId}
+                initialChapterAccess={chapter.isFree}
+              />
+            </div>
+          </div>
+          <div className="space-y-6">
+            <div>
+              <SetupCardHeader icon={Video} title="Add a video" />
+              <ChapterVideoForm
+                courseId={courseId}
+                chapterId={chapterId}
+                videoUrl={chapter.videoUrl}
+                muxData={chapter.muxData}
+              />
+            </div>
           </div>
         </div>
       </div>

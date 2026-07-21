@@ -1,4 +1,3 @@
-import { IconBadge } from "@/components/IconBadge";
 import { db } from "@/lib/db";
 import { auth } from "@clerk/nextjs/server";
 import {
@@ -13,7 +12,7 @@ import { DescriptionForm } from "./_components/DescriptionForm";
 import { ImageForm } from "./_components/ImageForm";
 import { CategoryForm } from "./_components/CategoryForm";
 import { PriceForm } from "./_components/PriceForm";
-import { CourseSetupCardHeader } from "./_components/CourseSetupCardHeader";
+import { SetupCardHeader } from "./_components/SetupCardHeader";
 import { AttachmentForm } from "./_components/AttachmentForm";
 import { ChaptersForm } from "./_components/ChaptersForm";
 
@@ -77,7 +76,7 @@ export default async function CourseSetupPage({
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-16">
         <div className="space-y-6">
-          <CourseSetupCardHeader
+          <SetupCardHeader
             icon={LayoutDashboard}
             title="Customize your course"
           />
@@ -95,21 +94,15 @@ export default async function CourseSetupPage({
         </div>
         <div className="space-y-6">
           <div>
-            <CourseSetupCardHeader icon={ListChecks} title="Course chapters" />
+            <SetupCardHeader icon={ListChecks} title="Course chapters" />
             <ChaptersForm courseId={courseId} chapters={course.chapters} />
           </div>
           <div>
-            <CourseSetupCardHeader
-              icon={CircleDollarSign}
-              title="Sell your course"
-            />
+            <SetupCardHeader icon={CircleDollarSign} title="Sell your course" />
             <PriceForm courseId={courseId} initialCoursePrice={course.price} />
           </div>
           <div>
-            <CourseSetupCardHeader
-              icon={File}
-              title="Resources & Attachments"
-            />
+            <SetupCardHeader icon={File} title="Resources & Attachments" />
             <AttachmentForm
               courseId={courseId}
               attachments={course.attachments}

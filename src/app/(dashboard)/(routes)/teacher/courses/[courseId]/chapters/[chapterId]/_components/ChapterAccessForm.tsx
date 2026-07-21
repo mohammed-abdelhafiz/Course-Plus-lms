@@ -7,39 +7,44 @@ import toast from "react-hot-toast";
 import { Button } from "@/components/ui/button";
 import { Pencil } from "lucide-react";
 import { useState } from "react";
-import { Field, FieldError } from "@/components/ui/field";
+import {
+  Field,
+  FieldContent,
+  FieldDescription,
+  FieldGroup,
+  FieldLabel,
+} from "@/components/ui/field";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
-import Editor from "@/components/editor";
-import Preview from "@/components/preview";
+import { Checkbox } from "@/components/ui/checkbox";
 
-interface ChapterDescriptionFormProps {
-  initialChapterDescription: string | null;
+interface ChapterAccessFormProps {
+  initialChapterAccess: boolean;
   courseId: string;
   chapterId: string;
 }
 
 const formSchema = z.object({
-  description: z.string(),
+  isFree: z.boolean(),
 });
 
-export const ChapterDescriptionForm = ({
-  initialChapterDescription,
+export const ChapterAccessForm = ({
+  initialChapterAccess,
   courseId,
   chapterId,
-}: ChapterDescriptionFormProps) => {
+}: ChapterAccessFormProps) => {
   const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      description: initialChapterDescription ?? "",
+      isFree: Boolean(initialChapterAccess),
     },
   });
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     try {
       await axios.patch(`/api/courses/${courseId}/chapters/${chapterId}`, data);
-      toast.success("Chapter description updated successfully");
+      toast.success("Chapter access updated successfully");
       toggleEditMode();
       router.refresh();
     } catch {
@@ -47,7 +52,7 @@ export const ChapterDescriptionForm = ({
     }
   };
 
-  const { isValid, isSubmitting, isDirty } = form.formState;
+  const { isSubmitting } = form.formState;
 
   const [isEditing, setIsEditing] = useState(false);
 
@@ -58,7 +63,7 @@ export const ChapterDescriptionForm = ({
   return (
     <div className="bg-muted rounded-md p-4">
       <div className="flex justify-between items-center">
-        <span>Chapter Description</span>
+        <span>Chapter Access</span>
         <Button variant="ghost" onClick={toggleEditMode}>
           {isEditing ? (
             <p>Cancel</p>
@@ -78,40 +83,39 @@ export const ChapterDescriptionForm = ({
         >
           <Controller
             control={form.control}
-            name="description"
-            render={({ field, fieldState }) => (
-              <Field data-invalid={fieldState.invalid}>
-                <Editor {...field} />
-                {fieldState.invalid && (
-                  <FieldError errors={[fieldState.error]} />
-                )}
-              </Field>
+            name="isFree"
+            render={({ field }) => (
+              <FieldGroup className="">
+                <Field orientation="horizontal">
+                  <Checkbox
+                    id="isFree"
+                    name="isFree"
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
+                  <FieldContent>
+                    <FieldLabel htmlFor="isFree">
+                      Free Preview for this chapter
+                    </FieldLabel>
+                    <FieldDescription>
+                      By checking this checkbox, students will be able to
+                      preview this chapter for free.
+                    </FieldDescription>
+                  </FieldContent>
+                </Field>
+              </FieldGroup>
             )}
           />
 
-          <Button type="submit" disabled={!isValid || isSubmitting || !isDirty}>
+          <Button type="submit" disabled={isSubmitting}>
             Save
           </Button>
         </form>
       ) : (
-        <div
-          className={cn(
-            "text-sm mt-4",
-            !initialChapterDescription && "text-muted-foreground italic",
-          )}
-        >
-          {initialChapterDescription ? (
-            <div
-              className={cn(
-                "text-sm mt-4",
-                !initialChapterDescription && "text-muted-foreground italic",
-              )}
-            >
-              <Preview value={initialChapterDescription} />
-            </div>
-          ) : (
-            <p>No description</p>
-          )}
+        <div className={cn("text-sm mt-4", "text-muted-foreground italic")}>
+          <p>
+            This chapter is {initialChapterAccess ? "" : "not"} free for preview
+          </p>
         </div>
       )}
     </div>
