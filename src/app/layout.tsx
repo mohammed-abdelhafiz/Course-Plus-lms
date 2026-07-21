@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { ClerkProvider } from "@clerk/nextjs";
 import { shadcn } from "@clerk/ui/themes";
 import { Toaster } from "react-hot-toast";
+import { ConfettiProvider } from "@/components/providers/ConfettiProvider";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -42,6 +43,7 @@ export default function RootLayout({
     >
       <body className="h-full">
         <ClerkProvider afterSignOutUrl="/" appearance={{ theme: shadcn }}>
+          <ConfettiProvider />
           {children}
           <Toaster />
         </ClerkProvider>
