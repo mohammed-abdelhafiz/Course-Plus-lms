@@ -15,6 +15,7 @@ import { CategoryForm } from "./_components/CategoryForm";
 import { PriceForm } from "./_components/PriceForm";
 import { CourseSetupCardHeader } from "./_components/CourseSetupCardHeader";
 import { AttachmentForm } from "./_components/AttachmentForm";
+import { ChaptersForm } from "./_components/ChaptersForm";
 
 interface CourseSetupPageProps {
   params: Promise<{ courseId: string }>;
@@ -32,6 +33,11 @@ export default async function CourseSetupPage({
       userId: userId,
     },
     include: {
+      chapters: {
+        orderBy: {
+          position: "asc",
+        },
+      },
       attachments: {
         orderBy: {
           createdAt: "desc",
@@ -48,6 +54,7 @@ export default async function CourseSetupPage({
     course.imageUrl,
     course.price,
     course.categoryId,
+    course.chapters.some((chapter) => chapter.isPublished),
   ];
 
   const totalFields = requiredFields.length;
@@ -89,7 +96,7 @@ export default async function CourseSetupPage({
         <div className="space-y-6">
           <div>
             <CourseSetupCardHeader icon={ListChecks} title="Course chapters" />
-            <div>TODO:Course chapters</div>
+            <ChaptersForm courseId={courseId} chapters={course.chapters} />
           </div>
           <div>
             <CourseSetupCardHeader
@@ -103,7 +110,10 @@ export default async function CourseSetupPage({
               icon={File}
               title="Resources & Attachments"
             />
-            <AttachmentForm courseId={courseId} attachments={course.attachments} />
+            <AttachmentForm
+              courseId={courseId}
+              attachments={course.attachments}
+            />
           </div>
         </div>
       </div>
