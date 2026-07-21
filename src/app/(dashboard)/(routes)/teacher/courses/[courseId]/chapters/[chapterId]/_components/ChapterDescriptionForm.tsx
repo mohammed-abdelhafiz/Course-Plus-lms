@@ -20,7 +20,7 @@ interface ChapterDescriptionFormProps {
 }
 
 const formSchema = z.object({
-  description: z.string(),
+  description: z.string().min(1),
 });
 
 export const ChapterDescriptionForm = ({
