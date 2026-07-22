@@ -1,17 +1,26 @@
-import { buttonVariants } from "@/components/ui/button";
-import { PlusCircle } from "lucide-react";
-import Link from "next/link";
+import { columns } from "./_components/columns";
+import { DataTable } from "./_components/data-table";
+import { auth } from "@clerk/nextjs/server";
+import { db } from "@/lib/db";
+import { redirect } from "next/navigation";
 
-export default function TeacherCoursesPage() {
+export default async function TeacherCoursesPage() {
+  const { userId } = await auth();
+
+  if (!userId) redirect("/");
+
+  const courses = await db.course.findMany({
+    where: {
+      userId,
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+
   return (
     <div className="p-6">
-      <Link
-        href={"/teacher/courses/new"}
-        className={buttonVariants({ variant: "default", size: "lg" })}
-      >
-        <PlusCircle className="w-4 h-4 mr-2" />
-        New Course
-      </Link>
+      <DataTable columns={columns} data={courses} />
     </div>
   );
 }
