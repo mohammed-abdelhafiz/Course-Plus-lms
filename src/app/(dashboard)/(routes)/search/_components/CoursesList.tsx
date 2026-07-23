@@ -16,7 +16,7 @@ export const CoursesList = ({ items }: CourseListProps) => {
         </div>
       ) : (
         <p className="mt-10 text-center text-sm text-muted-foreground">
-          No courses found. Try adjusting your search terms.
+          No courses found.
         </p>
       )}
     </div>

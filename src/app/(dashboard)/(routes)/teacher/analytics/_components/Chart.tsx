@@ -1,19 +1,14 @@
 "use client";
 
 import { Card } from "@/components/ui/card";
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  ResponsiveContainer,
-} from "recharts";
+import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer } from "recharts";
 
 interface ChartProps {
   data: { name: string; total: number }[];
 }
 
 export const Chart = ({ data }: ChartProps) => {
+  if (!data.length) return null;
   return (
     <Card>
       <ResponsiveContainer width="100%" height={350}>
