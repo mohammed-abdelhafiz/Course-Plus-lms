@@ -1,4 +1,5 @@
 import { CourseWithProgressWithCategory } from "@/actions/get-courses";
+import { CourseProgress } from "@/components/CourseProgress";
 import { IconBadge } from "@/components/IconBadge";
 import { formatMoney } from "@/lib/format-money";
 import { BookOpen } from "lucide-react";
@@ -39,10 +40,16 @@ export const CourseCard = ({ course }: CourseCardProps) => {
           </div>
           {course.progress !== null ? (
             <div>
-              {/* <Progress value={course.progress} className="h-2" /> */}
+              <CourseProgress
+                progress={course.progress}
+                variant={course.progress === 100 ? "success" : "default"}
+                size="sm"
+              />
             </div>
           ) : (
-            <p className="text-md md:text-sm font-medium">{formatMoney(course.price || 0)}</p>
+            <p className="text-md md:text-sm font-medium">
+              {formatMoney(course.price || 0)}
+            </p>
           )}
         </div>
       </div>

@@ -83,7 +83,7 @@ export default async function ChapterPage({ params }: ChapterPageProps) {
                     href={attachment.url}
                     target="_blank"
                     key={attachment.id}
-                    className="flex items-center p-3 w-full bg-primary-200 hover:underline text-primary rounded-md"
+                    className="flex items-center p-3 w-full bg-primary/20 hover:underline text-primary rounded-md"
                   >
                     <File />
                     <p className="line-clamp-1">{attachment.name}</p>
