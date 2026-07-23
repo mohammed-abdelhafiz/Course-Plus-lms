@@ -34,7 +34,7 @@ export const CourseSidebarItem = ({
     <Button
       onClick={onClick}
       type="button"
-      variant={isActive ? "default" : isCompleted ? "success" : "ghost"}
+      variant={isActive ? "default" : isCompleted ? "textSuccess" : "ghost"}
       className="justify-start px-0 pl-6 h-12 rounded-sm"
     >
       <div className="flex items-center gap-x-2">
